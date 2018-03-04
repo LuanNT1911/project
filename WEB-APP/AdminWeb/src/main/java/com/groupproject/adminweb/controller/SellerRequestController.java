@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -42,6 +43,17 @@ import com.google.gson.internal.LinkedTreeMap;
 @Controller
 public class SellerRequestController {
 
+	// Gobal variable to keep track upload progess
+		static JSONObject uploadData; 
+		final static String UPLOAD_STATUS_KEY="upload_status";
+		final static String UPLOAD_VALUE_KEY="upload_value";
+		static{
+			uploadData = new JSONObject();
+			uploadData.put(UPLOAD_STATUS_KEY, "start");
+			uploadData.put(UPLOAD_VALUE_KEY, "0");
+		}
+	
+	
 	@RequestMapping(value = "/abc", method = RequestMethod.GET)
 	public String test() {
 
@@ -101,7 +113,7 @@ public class SellerRequestController {
 	}
 	
 	@RequestMapping(value = "/approveGennerate3d", method = RequestMethod.GET)
-	public String approveGennerate3d(HttpServletRequest request, Model model,@RequestParam String token) throws Exception {
+	public String approveGennerate3d(HttpServletRequest request, Model model,@RequestParam(required=false) String token) throws Exception {
 
 		String serverHost = "http://127.0.0.1:8090";
 
@@ -255,7 +267,7 @@ model.addAttribute("token", token);
 		}
 		HttpSession session = request.getSession();
 		attributes.addAttribute("token", session.getAttribute("token"));
-		httpresponse.sendRedirect("approveGennerate3d");
+	
 		return "";
 	}
 
@@ -280,5 +292,27 @@ model.addAttribute("token", token);
 		System.out.println(reason);
 		return body;
 	}
+	
+	
+	@RequestMapping(value = "/getUpdateData", method = RequestMethod.GET)
+	public @ResponseBody String getUploadprogressData(HttpServletRequest request)
+			throws Exception {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> params = new LinkedMultiValueMap();
+		String serverHost = "http://127.0.0.1:8090";
+		String getDataLink = serverHost + "/IFAR/getUpdateData";
+		RestTemplate restTemplate = new RestTemplate();
+		HttpEntity<MultiValueMap<String, String>> requestAPI = new HttpEntity<MultiValueMap<String, String>>(params,
+				headers);
+		ResponseEntity result = restTemplate.getForEntity(getDataLink, String.class);
+		String response=result.getBody().toString();
+		uploadData = new JSONObject(response);
+		System.out.println(uploadData);
+		return uploadData.toString();
+	}
+	
+	
 	
 }

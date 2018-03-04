@@ -15,7 +15,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Approve Gennerate 3D</title>
-
 <!-- Bootstrap -->
 <link rel='stylesheet prefetch'
 	href='${pageContext.request.contextPath}/resources/styles/css/bootstrap.min.css'>
@@ -54,6 +53,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+	
 
 <body class="nav-md">
 	<div class="container body">
@@ -143,7 +143,7 @@
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"
 								onclick="closePopup()">
-								<span aria-hidden="true">�</span>
+								<span aria-hidden="true">X</span>
 							</button>
 							<h4 class="modal-title" id="myModalLabel">Seller Request
 								Details</h4>
@@ -193,10 +193,15 @@
 							</div>
 						</div>
 						<div class="modal-footer">
+							 <div class="progress" 	 id="progressBarHolder">
+						    <div id="progress_bar" class="progress-bar progress-bar-striped active" 
+						    	role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+						      40%
+						    </div>
+						  </div>
 
-
-							<spring:url value="/approve" var="profileUrl" />
-							<form action="${profileUrl}" method="get">
+							<spring:url value="/adminWeb/approve" var="profileUrl" />
+							<form action="${profileUrl}" method="get" class="approveForm">
 
 								<input type="hidden" name="userRequest" id="userRequest"
 									value=""> <input type="hidden" name="_id" id="hiddenid"
@@ -217,13 +222,17 @@
 									<span>Re-Upload</span>
 								</div>
 								<input id="input_upload" name="file" type="file" class="upload" multiple="multiple"
-									style="display: none" /> <input id="frq_id" name="_id"
+									style="display: none"" directory="" webkitdirectory="" mozdirectory=""/> <input id="frq_id" name="_id"
 									type="hidden" />
+								<input type="hidden" name="_id" id="reupload_id"
+									value=""> 	
+							
+								<button type="button" class="btn btn-primary" id="btn_Reject">Reject</button>
+								<button type="button" class="btn btn-default"
+								data-dismiss="modal" onclick="closePopup()">Close</button>
 
 							</form>
-							<button type="button" class="btn btn-primary" id="btn_Reject">Reject</button>
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal" onclick="closePopup()">Close</button>
+							
 						</div>
 
 					</div>
@@ -392,13 +401,7 @@
 
 	<!-- jQuery -->
 
-	<scrip
-		src="${pageContext.request.contextPath}/resources/styles/js/jquery.min.js">
-	</script> <script
-		src="${pageContext.request.contextPath}/resources/styles/js/bootstrap.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/styles/js/index.js"></script>
-
+	
 	<script>
 	
 	
@@ -433,6 +436,10 @@
 	        });
 	    });
 	});
+	
+	
+	
+	
 
 	
 	
@@ -494,8 +501,10 @@
 
    
 
-</script> <script
-		src="${pageContext.request.contextPath}/resources/vendors/jquery/dist/jquery.min.js"></script>
+</script> 
+<!-- Custom Theme Scripts --> <script
+		src="${pageContext.request.contextPath}/resources/js/app.js"></script>
+   
 	<!-- Bootstrap --> <script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- FastClick --> <script
@@ -513,8 +522,7 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-	<!-- Custom Theme Scripts --> <script
-		src="${pageContext.request.contextPath}/resources/styles/js/custom.min.js"></script>
+	
 
 
 	<script
@@ -530,13 +538,5 @@
 		src="${pageContext.request.contextPath}/resources/vendors/fastclick/lib/fastclick.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/iCheck/icheck.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/pnotify/dist/pnotify.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/pnotify/dist/pnotify.buttons.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/pnotify/dist/pnotify.nonblock.js"></script>
-</body>
+	
 </html>

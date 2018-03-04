@@ -13,7 +13,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +54,22 @@ import com.rest.s3config.ConfigProperties;
 public class SellerRequestController {
 	private static final Logger logger = Logger.getLogger(SellerRequestController.class);
 
+	// Gobal variable to keep track upload progess
+			static JSONObject uploadData; 
+			final static String UPLOAD_STATUS_KEY="upload_status";
+			final static String UPLOAD_VALUE_KEY="upload_value";
+			static{
+				uploadData = new JSONObject();
+				try {
+					uploadData.put(UPLOAD_STATUS_KEY, "start");
+					uploadData.put(UPLOAD_VALUE_KEY, "0");
+				} catch (JSONException e) {
+				}
+				
+			}
+	
+	
+	
 	// Save the uploaded file to this folder
 	private static String UPLOADED_FOLDER = System.getProperty("user.dir") + "/SellerImages//";
 	@Autowired
@@ -66,6 +86,11 @@ public class SellerRequestController {
 	@PostMapping(path = "re-upload")
 	public ResponseEntity reupload(@RequestParam("file") MultipartFile[] files, @RequestParam String _id)
 			throws Exception {
+		
+		uploadData.put(UPLOAD_STATUS_KEY, "START");
+		uploadData.put(UPLOAD_VALUE_KEY, "0");
+		
+		
 		String fileName = null;
 		String msg = "";
 		String bucketName = ConfigProperties.getInstance().getValue("jsa.s3.bucket");
@@ -96,11 +121,15 @@ public class SellerRequestController {
 					System.out.println(convFile.getTotalSpace());
 					convFile.delete();
 					msg += "You have successfully uploaded " + fileName + "\n";
+					int value = uploadData.getInt(UPLOAD_VALUE_KEY);
+					uploadData.put(UPLOAD_VALUE_KEY, value+=calcualateProgressPercent(files.length));
 				} catch (Exception e) {
 					msg= "You failed to upload " + fileName + ": " + e.getMessage() + "<br/>";
 				}
 			}
-
+			
+			uploadData.put(UPLOAD_STATUS_KEY, "DONE");
+			
 			Model model = new Model();
 			model.setCreatedAt(Calendar.getInstance().getTime());
 			model.setHeight(request.getHeight());
@@ -421,5 +450,18 @@ public class SellerRequestController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/getUpdateData", method = RequestMethod.GET)
+	public @ResponseBody String getUploadprogressData(HttpServletRequest request)
+			throws Exception {
+		int value = uploadData.getInt(UPLOAD_VALUE_KEY);
+		
+		return uploadData.toString();
+	}
+	
+	private int calcualateProgressPercent(int fileSize){
+		return Math.round(100/fileSize);
+	}
+	
 
 }
