@@ -29,21 +29,10 @@ formData.append("_id",valueID);
 	xhr.open('POST', form.getAttribute("action"), true);
 
 	// Set up a handler for when the request finishes.
+	startWorker();
   xhr.onload = function () {
+   
   if (xhr.status === 200) {
-    // File(s) uploaded.
-    getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
     uploadButton.innerHTML = 'Upload';
   } else {
     alert('An error occurred!');
@@ -51,7 +40,7 @@ getUpdateProgress();
 };
 // Send the Data.
 xhr.send(formData);
-
+stopWorker()
 
 
 }
@@ -63,37 +52,28 @@ var UPLOAD_STATUS_KEY="upload_status";
 var UPLOAD_VALUE_KEY="upload_value";
 
 
-function getUpdateProgress(){
-	
-	var progressBarDiv = document.getElementById("progressBarHolder");
-	progressBarDiv.setAttribute("style", "display:block");
 
 
-	$.ajax({
-            url: "/adminWeb/getUpdateData",
-            type: 'GET',
-            success: function(res) {
-                console.log(res);
+var w;
 
-                var dataObj = JSON.parse(res);
-                var percent = dataObj.upload_value;
-                var progressBar = document.getElementById("progress_bar");
-              
-                
-                progressBar.setAttribute("style", "width:"+percent+"%");	
-                progressBar.setAttribute("aria-valuenow", percent);	
-                progressBar.innerHTML=percent+"%"
-                
-                if(percent>=100){
-                	return;	
-
-            }
-				
-
-
-             
-            }
-        });
-	
-
+function startWorker() {
+    if(typeof(Worker) !== "undefined") {
+        if(typeof(w) == "undefined") {
+            w = new Worker("/adminWeb/resources/js/worker.js");
+            console.log("gg");
+            w.postMessage("Hello worker!");
+        }
+       
+        
+    } else {
+        console.log("else nhanh");
+    }
 }
+
+function stopWorker() { 
+    w.terminate();
+    w = undefined;
+}
+
+
+

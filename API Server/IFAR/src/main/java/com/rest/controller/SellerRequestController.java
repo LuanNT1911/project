@@ -454,13 +454,19 @@ public class SellerRequestController {
 	@RequestMapping(value = "/getUpdateData", method = RequestMethod.GET)
 	public @ResponseBody String getUploadprogressData(HttpServletRequest request)
 			throws Exception {
-		int value = uploadData.getInt(UPLOAD_VALUE_KEY);
+	
 		
 		return uploadData.toString();
 	}
 	
 	private int calcualateProgressPercent(int fileSize){
-		return Math.round(100/fileSize);
+		if(100%fileSize!=0){
+			return (100/fileSize)+1;
+		}else{
+			
+			return 100/fileSize;
+		}
+	
 	}
 	
 
