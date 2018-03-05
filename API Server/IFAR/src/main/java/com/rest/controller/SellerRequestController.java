@@ -102,6 +102,7 @@ public class SellerRequestController {
 		// String link =
 		// modelRepository.getLinkBySellerRequestId(Integer.parseInt(_id));
 		String fileUrl = buildUrlWhenUploaded(s3Host, bucketName + "/" + forlderS3 + "/");
+		System.out.println(files.length);
 		if (files != null && files.length > 0) {
 			for (int i = 0; i < files.length; i++) {
 				try {
@@ -122,14 +123,27 @@ public class SellerRequestController {
 					convFile.delete();
 					msg += "You have successfully uploaded " + fileName + "\n";
 					int value = uploadData.getInt(UPLOAD_VALUE_KEY);
-					uploadData.put(UPLOAD_VALUE_KEY, value+=calcualateProgressPercent(files.length));
+					uploadData.put(UPLOAD_VALUE_KEY, value+calcualateProgressPercent(files.length));
+					System.out.println("IFAR SERVER:"+uploadData);
+					
+					
 				} catch (Exception e) {
 					msg= "You failed to upload " + fileName + ": " + e.getMessage() + "<br/>";
+					System.out.println(msg);
 				}
 			}
+			int value = uploadData.getInt(UPLOAD_VALUE_KEY);
+			if(value<100){
+				// will handle fail later
+				//	uploadData.put(UPLOAD_STATUS_KEY, "FAIL");
+				
+				uploadData.put(UPLOAD_STATUS_KEY, "DONE");
+				uploadData.put(UPLOAD_VALUE_KEY, "100");
+				
+			}else{
+				uploadData.put(UPLOAD_STATUS_KEY, "DONE");
+			}
 			
-			uploadData.put(UPLOAD_STATUS_KEY, "DONE");
-			uploadData.put(UPLOAD_VALUE_KEY, "0");
 			
 			Model model = new Model();
 			model.setCreatedAt(Calendar.getInstance().getTime());
