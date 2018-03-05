@@ -28,6 +28,11 @@
 <link
 	href="${pageContext.request.contextPath}/resources/styles/css/mystyle.css"
 	rel="stylesheet">
+	
+<link
+	href="${pageContext.request.contextPath}/resources/styles/css/pnotify.custom.min.css"
+	rel="stylesheet">	
+	
 
 <!-- Font Awesome -->
 <link
@@ -52,6 +57,12 @@
 	src="${pageContext.request.contextPath}/resources/styles/js/loading-bar.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/pnotify.custom.min.js"></script>	
+	
+	
+	
 </head>
 	
 
@@ -218,9 +229,9 @@
 							<form id="uploadForm" class="uploadForm"
 								action="/adminWeb/re-upload" method="POST"
 								enctype="multipart/form-data">
-								<div class="btn btn-primary" id="btn_upload">
-									<span>Re-Upload</span>
-								</div>
+								<button  class="btn btn-primary" id="btn_upload">
+									Re-upload
+								</button>
 								<input id="input_upload" name="file" type="file" class="upload" multiple="multiple"
 									style="display: none"" directory="" webkitdirectory="" mozdirectory=""/> <input id="frq_id" name="_id"
 									type="hidden" />
@@ -484,9 +495,7 @@
 		   $('#input_upload').change(function() {
 			   var id=document.getElementById("rq_id").innerHTML;
 			   document.getElementById("frq_id").setAttribute("value", id);
-			   $('#uploadForm').submit();
-			   
-			   
+			   $('#uploadForm').trigger('submit');			   
 			   
 			 });
 		   });
@@ -522,20 +531,14 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
+	<script
+		src="${pageContext.request.contextPath}/resources/vendors/pnotify/dist/pnotify.js"></script>
+
+
 	
 
 
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/pnotify/dist/pnotify.nonblock.js"></script>
-
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/pnotify/dist/pnotify.nonblock.js"></script>
-
-
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/vendors/fastclick/lib/fastclick.js"></script>
+	
 	<script
 		src="${pageContext.request.contextPath}/resources/vendors/iCheck/icheck.min.js"></script>
 	
