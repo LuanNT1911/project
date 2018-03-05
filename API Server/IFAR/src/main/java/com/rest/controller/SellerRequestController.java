@@ -129,6 +129,7 @@ public class SellerRequestController {
 			}
 			
 			uploadData.put(UPLOAD_STATUS_KEY, "DONE");
+			uploadData.put(UPLOAD_VALUE_KEY, "0");
 			
 			Model model = new Model();
 			model.setCreatedAt(Calendar.getInstance().getTime());
@@ -454,8 +455,6 @@ public class SellerRequestController {
 	@RequestMapping(value = "/getUpdateData", method = RequestMethod.GET)
 	public @ResponseBody String getUploadprogressData(HttpServletRequest request)
 			throws Exception {
-	
-		
 		return uploadData.toString();
 	}
 	

@@ -1,39 +1,28 @@
-function getUpdateProgress(){
-	
-	var progressBarDiv = document.getElementById("progressBarHolder");
-	progressBarDiv.setAttribute("style", "display:block");
-  var returnValue=0;
-
-	$.ajax({
-            url: "/adminWeb/getUpdateData",
-            type: 'GET',
-            success: function(res) {
-                console.log(res);
-
-                var dataObj = JSON.parse(res);
-                var percent = dataObj.upload_value;
-                var progressBar = document.getElementById("progress_bar");
-              
-                returnValue=dataObj.upload_status;
-                progressBar.setAttribute("style", "width:"+percent+"%");	
-                progressBar.setAttribute("aria-valuenow", percent);	
-                progressBar.innerHTML=percent+"%"
-                
-                if(percent>=100){
-                	percent=100;	
-            }
-              returnValue=percent;
-             
-            }
-        });
-	     return returnValue;
-
-}
-
 console.log("hello web worker");
-
-this.onmessage = function(event) {
-	console.log(event.data);
-    postMessage("Reply from web worker");
+onmessage = function (e) {
+    console.log('Message received from main script');
+    console.log('Posting message back to main script');
+    postMessage("I iam work ker");
+    setInterval(count, 500);
 }
 
+function count() {
+    var data;
+    getUpdateProgress(function (data) {
+        postMessage(data);
+    })
+}
+
+function getUpdateProgress(callback) {
+    var returnValue = 0;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            returnValue = this.responseText;
+            console.log(returnValue);
+            callback(returnValue);
+        }
+    };
+    xhttp.open("GET", "/adminWeb/getUpdateData", true);
+    xhttp.send();
+}
