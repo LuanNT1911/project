@@ -84,12 +84,12 @@ function getUpdateProgress(res){
 
 function disableProgressBar(){
 		var progressBarDiv = document.getElementById("progressBarHolder");
+		var progressBar = document.getElementById("progress_bar");
 		progressBarDiv.setAttribute("style", "display:none");
 	    progressBar.setAttribute("style", "width:0%");	
-	    progressBar.setAttribute("aria-valuenow", percent);	
 	    progressBar.innerHTML="0%"
-	}
 	
-
+	
+}
 
 
