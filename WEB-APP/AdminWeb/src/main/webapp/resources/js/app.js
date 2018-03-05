@@ -1,99 +1,95 @@
 var form = document.getElementById('uploadForm');
-var fileSelect =document.getElementById('input_upload'); 
-var uploadButton =document.getElementById('btn_upload');
-
+var fileSelect = document.getElementById('input_upload');
+var uploadButton = document.getElementById('btn_upload');
 console.log('test');
+form.onsubmit = function (event) {
+        event.preventDefault();
+        var valueID = document.getElementById("rq_id").innerHTML;
+        console.log(valueID);
+        uploadButton.innerHTML = 'Uploading...';
+        // Get the selected files from the input.
+        var files = fileSelect.files;
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            formData.append('file', file, file.name);
+        }
+        formData.append("_id", valueID);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', form.getAttribute("action"), true);
+        // Set up a handler for when the request finishes.
+        startWorker();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                uploadButton.innerHTML = 'Upload';
+                alert("Upload files successful!");
+                disableProgressBar();
+            }
+            else {
+                alert('An error occurred!');
+            }
+        };
+        // Send the Data.
+        xhr.send(formData);
+//        stopWorker()
+    }
+    // upload progress bar code
+var UPLOAD_STATUS_KEY = "upload_status";
+var UPLOAD_VALUE_KEY = "upload_value";
+var w;
+w = new Worker("/adminWeb/resources/js/worker.js");
 
-
-
-
-form.onsubmit = function(event) {
-  event.preventDefault();
-  var valueID= document.getElementById("rq_id").innerHTML;
-  console.log(valueID);
-  uploadButton.innerHTML = 'Uploading...';
-
-  // Get the selected files from the input.
-var files = fileSelect.files;
-var formData = new FormData();
-
-
-for (var i = 0; i < files.length; i++) {
-  var file = files[i];
-
-  formData.append('file', file, file.name);
-}
-formData.append("_id",valueID);
-
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', form.getAttribute("action"), true);
-
-	// Set up a handler for when the request finishes.
-  xhr.onload = function () {
-  if (xhr.status === 200) {
-    // File(s) uploaded.
-    getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-getUpdateProgress();
-    uploadButton.innerHTML = 'Upload';
-  } else {
-    alert('An error occurred!');
-  }
+function startWorker() {
+    w.postMessage("hello");
 };
-// Send the Data.
-xhr.send(formData);
 
+w.onmessage = function (e) {
+    console.log(e.data);
+    getUpdateProgress(e.data);
+    console.log('Message received from worker');
+};
 
-
+function stopWorker() {
+    w.terminate();
+    w = undefined;
 }
 
 
-
-// upload progress bar code
-var UPLOAD_STATUS_KEY="upload_status";
-var UPLOAD_VALUE_KEY="upload_value";
-
-
-function getUpdateProgress(){
+function getUpdateProgress(res){
 	
 	var progressBarDiv = document.getElementById("progressBarHolder");
 	progressBarDiv.setAttribute("style", "display:block");
 
 
-	$.ajax({
-            url: "/adminWeb/getUpdateData",
-            type: 'GET',
-            success: function(res) {
-                console.log(res);
+	
 
                 var dataObj = JSON.parse(res);
                 var percent = dataObj.upload_value;
+                if(percent>=100){
+                	percent=100;
+                	stopWorker();
+            }
                 var progressBar = document.getElementById("progress_bar");
               
-                
+                returnValue=dataObj.upload_status;
                 progressBar.setAttribute("style", "width:"+percent+"%");	
                 progressBar.setAttribute("aria-valuenow", percent);	
                 progressBar.innerHTML=percent+"%"
                 
-                if(percent>=100){
-                	return;	
-
-            }
-				
-
-
              
-            }
-        });
-	
+      
+	  
 
 }
+
+function disableProgressBar(){
+		var progressBarDiv = document.getElementById("progressBarHolder");
+		progressBarDiv.setAttribute("style", "display:none");
+	    progressBar.setAttribute("style", "width:0%");	
+	    progressBar.setAttribute("aria-valuenow", percent);	
+	    progressBar.innerHTML="0%"
+	}
+	
+
+
+
