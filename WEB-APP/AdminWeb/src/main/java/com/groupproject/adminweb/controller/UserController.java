@@ -110,112 +110,13 @@ public class UserController {
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println("respne body : "+response.getBody());
 		JSONArray listJson = new JSONArray(response.getBody());
-		/*
-		ArrayList<String> listImage =  new ArrayList<>();
-		for(int i=0;i<listJson.length();i++){
-			System.out.println(listJson.get(i).toString());
-		}
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3809.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3810.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3811.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3812.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3813.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3814.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3815.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3816.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3817.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3818.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3819.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3820.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3821.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3822.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3823.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3824.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3825.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3826.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3827.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3828.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3829.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3830.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3831.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3832.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3833.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3834.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3835.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3836.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3837.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3838.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3839.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3840.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3841.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3842.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3843.JPG");
-		listImage.add("https://s3.amazonaws.com/3dimagetest/binhco/IMG_3844.JPG");*/
+		
 		for(int i=0;i<listJson.length();i++){
 			System.out.println(listJson.get(i).toString());
 			Generate3DModelRestClient.updateImage(photosceneId, token, listJson.get(i).toString(), "file["+i+"]");
 		}
 
 		
-		/*
-		 * String[] file = {
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3809.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3810.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3811.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3812.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3813.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3814.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3815.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3816.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3817.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3818.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3819.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3820.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3821.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3822.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3823.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3824.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3825.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3826.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3827.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3828.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3829.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3830.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3831.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3832.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3833.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3834.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3835.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3836.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3837.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3838.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3839.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3840.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3841.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3842.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3843.JPG",
-		 * "https://s3.amazonaws.com/3dimagetest/binhco/IMG_3844.JPG" };
-		 * params.add("file[0]", file[0]); params.add("file[1]", file[1]);
-		 * params.add("file[2]", file[2]); params.add("file[3]", file[3]);
-		 * params.add("file[4]", file[4]); params.add("file[5]", file[5]);
-		 * params.add("file[6]", file[6]); params.add("file[7]", file[7]);
-		 * params.add("file[8]", file[8]); params.add("file[9]", file[9]);
-		 * params.add("file[10]", file[10]); params.add("file[11]", file[11]);
-		 * params.add("file[12]", file[12]); params.add("file[13]", file[13]);
-		 * params.add("file[14]", file[14]); params.add("file[15]", file[15]);
-		 * params.add("file[16]", file[16]); params.add("file[17]", file[17]);
-		 * params.add("file[18]", file[18]); params.add("file[19]", file[19]);
-		 * params.add("file[20]", file[20]); params.add("file[21]", file[21]);
-		 * params.add("file[22]", file[22]); params.add("file[23]", file[23]);
-		 * params.add("file[24]", file[24]); params.add("file[25]", file[25]);
-		 * params.add("file[26]", file[26]); params.add("file[27]", file[27]);
-		 * params.add("file[28]", file[28]); params.add("file[29]", file[29]);
-		 * params.add("file[30]", file[30]); params.add("file[31]", file[31]);
-		 * params.add("file[32]", file[32]); params.add("file[33]", file[33]);
-		 * params.add("file[34]", file[34]); params.add("file[35]", file[35]);
-		 */
-
-
 		redirectAttributes.addAttribute("photosceneId", photosceneId);
 		redirectAttributes.addAttribute("token", token);
 		redirectAttributes.addAttribute("requestId", requestId);

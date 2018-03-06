@@ -211,7 +211,7 @@
 						    </div>
 						  </div>
 
-							<spring:url value="/adminWeb/approve" var="profileUrl" />
+							<spring:url value="/approve" var="profileUrl" />
 							<form action="${profileUrl}" method="get" class="approveForm">
 
 								<input type="hidden" name="userRequest" id="userRequest"
