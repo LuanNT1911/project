@@ -9,8 +9,8 @@ var rejectBtn= document.getElementById("btn_Reject");
 
 console.log('test');
 form.onsubmit = function (event) {
-//        approveBtn.setAttribute("disable");
-//        rejectBtn.setAttribute("disable");    
+        approveBtn.setAttribute("disabled","");
+        rejectBtn.setAttribute("disabled","");    
         event.preventDefault();
         var valueID = document.getElementById("rq_id").innerHTML;
         console.log(valueID);
@@ -104,8 +104,8 @@ function getUpdateProgress(res) {
 }
 
 function disableProgressBar() {
-//    approveBtn.removeAttribute("disable");
-//    rejectBtn.removeAttribute("disable");
+    approveBtn.removeAttribute("disabled");
+    rejectBtn.removeAttribute("disabled");
 
     var progressBarDiv = document.getElementById("progressBarHolder");
     var progressBar = document.getElementById("progress_bar");
